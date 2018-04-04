@@ -56,7 +56,7 @@ str(tpp_xml)
 xml2::xml_structure(tpp_xml)
 
 # When was it signed?
-xml2::xml_find_first(tpp_xml, "/treaty/meta/date_signed")  # still a node
+xml2::xml_find_first(tpp_xml, "/treaty/meta/date_signed") # still a node
 
 ## Convert to character: option 1
 xml2::xml_text(xml_find_first(tpp_xml, "/treaty/meta/date_signed"))
@@ -74,7 +74,7 @@ as.numeric(lubridate::year(lubridate::ymd(tpp_date_signed)))
 as.numeric(year(ymd("2016 February 3")))
 
 # Who were the signatories?
-## Access the inner text of the  nodes
+## Access the inner text of the nodes
 tpp_parties_nodes <- xml_find_all(tpp_xml, "/treaty/meta/parties_original/partyisocode/text()")
 
 ## To list with the aid of as_list (not to confuse with as.list)
@@ -145,7 +145,7 @@ tpp_investment_articles[, word_count := stringr::str_count(gsub("\\s+", " ", gsu
 # Log-density of word counts
 plot(density(log(tpp_investment_articles$word_count)))
 
-# Which articles is on MFN?
+# Which articles are on MFN?
 tpp_investment_articles[grepl("treatment", article_text)]
 
 # Compare the complexity of provisions of two agreements
