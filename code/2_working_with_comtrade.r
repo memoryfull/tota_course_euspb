@@ -165,7 +165,7 @@ bilateral_trade[, importer_wb := countrycode(importer_cow, origin = "cown", dest
 bilateral_trade[, exporter_wb := countrycode(exporter_cow, origin = "cown", destination = "wb_api3c")]
 
 # Query GDP in current USD from World Bank
-#gdp_data <- wb(indicator = "NY.GDP.MKTP.CD", startdate = 1960, enddate = 2014)
+gdp_data <- wb(indicator = "NY.GDP.MKTP.CD", startdate = 1960, enddate = 2014)
 setDT(gdp_data)
 setnames(gdp_data, c("value"), c("gdp"))
 gdp_data[, date := as.integer(date)]
@@ -218,37 +218,39 @@ bilateral_trade[importer == "CAN" & exporter == "RUS"]
 # Log of imports plus a small value:  dependent variable
 bilateral_trade[, ln_imports := log(imports + .0001)]
 
-# Log of GDP
+# Log of GDP and distance
 bilateral_trade[, ln_importer_gdp := log(importer_gdp)]
 bilateral_trade[, ln_exporter_gdp := log(exporter_gdp)]
+bilateral_trade[, ln_dist := log(dist)]
 
 bilateral_trade[, year := as.factor(year)]
 
 # Very naive model
-naive_gravity <- lfe::felm(ln_imports ~ ln_importer_gdp + ln_exporter_gdp + dist + contig + comlang_off + colony, data = bilateral_trade) 
+naive_gravity <- lfe::felm(ln_imports ~ ln_importer_gdp + ln_exporter_gdp + ln_dist + contig + comlang_off + colony, data = bilateral_trade) 
 summary(naive_gravity)
 
 100*(1.10^coef(naive_gravity)["ln_importer_gdp"]-1)	# 10% increase in importer GDP is associated with 10.3% increase in imports
 100*(1.10^coef(naive_gravity)["ln_exporter_gdp"]-1)	# 10% increase in exporter GDP is associated with 13.3% increase in exports
-100*(coef(naive_gravity)["dist"])					# One thousand-kilometre increase in distance is associated with 24% decrease in imports 
+100*(1.10^coef(naive_gravity)["ln_dist"]-1)			# One thousand-kilometre increase in distance is associated with 24% decrease in imports 
 100*(coef(naive_gravity)["colony"])					# This seems improbable
 
 # Very naive model with country FE
-naive_gravity_imp_exp_fe <- felm(ln_imports ~ ln_importer_gdp + ln_exporter_gdp + dist + contig + comlang_off + colony | importer + exporter, data = bilateral_trade) 
+naive_gravity_imp_exp_fe <- felm(ln_imports ~ ln_importer_gdp + ln_exporter_gdp + ln_dist + contig + comlang_off + colony | importer + exporter, data = bilateral_trade) 
 summary(naive_gravity_imp_exp_fe)
 
 100*(1.10^coef(naive_gravity_imp_exp_fe)["ln_importer_gdp"]-1)
 100*(1.10^coef(naive_gravity_imp_exp_fe)["ln_exporter_gdp"]-1)
-100*(coef(naive_gravity_imp_exp_fe)["dist"])
+100*(1.10^coef(naive_gravity_imp_exp_fe)["ln_dist"]-1)
 100*(coef(naive_gravity_imp_exp_fe)["colony"])
 
 # Still naive model with year FE
-naive_gravity_imp_exp_year_fe <- felm(ln_imports ~ ln_importer_gdp + ln_exporter_gdp + dist + contig + comlang_off + colony | importer + exporter + year, data = bilateral_trade)
+naive_gravity_imp_exp_year_fe <- felm(ln_imports ~ ln_importer_gdp + ln_exporter_gdp + ln_dist + contig + comlang_off + colony | importer + exporter + year, data = bilateral_trade)
 summary(naive_gravity_imp_exp_year_fe)
 
 100*(1.10^coef(naive_gravity_imp_exp_year_fe)["ln_importer_gdp"]-1)
 100*(1.10^coef(naive_gravity_imp_exp_year_fe)["ln_exporter_gdp"]-1)
-100*(coef(naive_gravity_imp_exp_year_fe)["dist"])
+100*(1.10^coef(naive_gravity_imp_exp_year_fe)["ln_dist"]-1)
+100*(coef(naive_gravity_imp_exp_year_fe)["colony"])
 
 # Accounting for multilateral resistance terms
 gravity_imp_exp_fe <- felm(ln_imports ~ ln_importer_gdp + ln_exporter_gdp | importer + exporter + year + importer:exporter, data = bilateral_trade) 
