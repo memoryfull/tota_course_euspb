@@ -2,7 +2,7 @@
 # and estimate basic gravity models
 # NB: code relies on https://comtrade.un.org/data/Doc/api/ex/r
 #
-# Dmitriy Skougarevskiy, 4 April 2018
+# Dmitriy Skougarevskiy, 18 April 2018
 
 # Load/install dependencies
 packages <- c("data.table", "stringi", "stringr", "lubridate", "httr", "xml2", "countrycode", "rjson", "wbstats", "lfe", "readxl")
@@ -33,7 +33,7 @@ reporters[, iso := countrycode(uncode, origin = "un", destination = "iso3c")]
 reporters[is.na(iso)]
 
 # Fix some of them by hand
-reporters[ uncode == "58", iso := "BEL"] # Belgium-Le
+reporters[ uncode == "58", iso := "BEL"] # Belgium-Luxembourg
 reporters[ uncode == "200", iso := "CZE"] # Czechoslovakia
 reporters[ uncode == "842", iso := "USA"] # USA
 reporters[ uncode == "841", iso := "USA"] # USA
@@ -96,7 +96,7 @@ get.Comtrade <- function(maxrec=50000	# maximum no. of records returned
 	
 	return(response_data)
 	
-}
+} 
 
 #############
 # Query reporter-partner trade flows yourself
@@ -126,7 +126,7 @@ imports_from_uk[yr == 1963]
 
 # Download and unzip to data folder
 if(!file.exists("data/COW_Trade_4.0.zip")) {
-	download.file(url = "http://www.correlatesofwar.org/data-sets/bilateral-trade/cow_trade_4.0/at_download/file", destfile = "data/COW_Trade_4.0.zip" )
+	download.file(url = "http://www.correlatesofwar.org/data-sets/bilateral-trade/cow_trade_4.0/at_download/file", destfile = "data/COW_Trade_4.0.zip", mode = "wb")
 }
 
 # We need just one CSV with dyadic trade
@@ -180,7 +180,7 @@ setnames(bilateral_trade, c("gdp"), c("exporter_gdp"))
 
 # Add distances between countries from CEPII
 if(!file.exists("data/dist_cepii.xls")) {
-	download.file(url = "http://www.cepii.fr/distance/dist_cepii.zip", destfile = "data/dist_cepii.zip" )
+	download.file(url = "http://www.cepii.fr/distance/dist_cepii.zip", destfile = "data/dist_cepii.zip", mode = "wb")
 	unzip(zipfile = "data/dist_cepii.zip", files = "dist_cepii.xls", exdir = "data/")
 }
 
@@ -231,7 +231,7 @@ summary(naive_gravity)
 
 100*(1.10^coef(naive_gravity)["ln_importer_gdp"]-1)	# 10% increase in importer GDP is associated with 10.3% increase in imports
 100*(1.10^coef(naive_gravity)["ln_exporter_gdp"]-1)	# 10% increase in exporter GDP is associated with 13.3% increase in exports
-100*(1.10^coef(naive_gravity)["ln_dist"]-1)			# One thousand-kilometre increase in distance is associated with 24% decrease in imports 
+100*(1.10^coef(naive_gravity)["ln_dist"]-1)			# 10% increase in distance is associated with 214% decrease in imports 
 100*(coef(naive_gravity)["colony"])					# This seems improbable
 
 # Very naive model with country FE
