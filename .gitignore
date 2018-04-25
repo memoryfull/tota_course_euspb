@@ -1,2 +1,3 @@
-data/
+data/*
 *.history
+!data/pta_texts.rdata
