@@ -24,7 +24,7 @@ setwd(Sys.getenv('TOTA_COURSE_REPO'))
 load("data/pta_texts.rdata")
 
 ##################
-# A quick out-of-box example: deterimine text language
+# A quick out-of-box example: determine text language
 # from its n-gram profile with the aid of textcat package:
 # (https://www.jstatsoft.org/article/view/v052i06)
 
@@ -42,7 +42,7 @@ table(pta_texts$language, pta_texts$language_inferred) # precision = recall = 1
 # Examine n-grams by hand (pick two short agreements as an example)
 
 # Tokenize agreements into words (unigrams)
-tokens_temp <- word_tokenizer(pta_texts[rta_id %in% c(4, 51)]$rta_text)
+tokens_temp <- text2vec::word_tokenizer(pta_texts[rta_id %in% c(4, 51)]$rta_text)
 
 # Unigram occurrence profiles
 unigrams_profile_1 <- table(tokens_temp[[1]])
