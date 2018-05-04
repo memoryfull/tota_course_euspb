@@ -1,4 +1,4 @@
-# This code will showcase the distributive
+# This code will showcase the distributional
 # semantics with the aid of PTA full texts
 # and text2vec package
 #
