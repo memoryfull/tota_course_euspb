@@ -286,7 +286,7 @@ for(m in models_list) {
 
 # How would trade between two nations look like had there been an agreement
 # similar in design to NAFTA between them?
-glove_coefficients <- as.matrix(gravity_glove$coefficients)
+glove_coefficients <-  
 
 nafta_vector <- as.matrix(bilateral_trade_with_embeddings[identifier == 112, paste0("glove_", 1:50)][1])
 
@@ -305,7 +305,7 @@ agreement_rank <- data.table()
 for(id in unique(bilateral_trade_with_embeddings$identifier)) {
 	pta_vector <- as.matrix(bilateral_trade_with_embeddings[identifier == id, paste0("glove_", 1:50)][1])
 	
-	agreement_rank <- rbind(agreement_rank, data.table(identifier = id, value = as.numeric(pta_vector %*% glove_coefficients)))
+	agreement_rank <- rbind(agreement_rank, data.table(identifier = id, value = (exp(as.numeric(pta_vector %*% glove_coefficients))-1)*100))
 
 }
 
@@ -316,3 +316,19 @@ agreement_rank[, date := pta_texts[match(agreement_rank$identifier, pta_texts$id
 
 agreement_rank[1:20]
 agreement_rank[(nrow(agreement_rank)-20):nrow(agreement_rank)]
+
+# This rank might seem a bit divorced from reality 
+# Assumption: equate to zeros PTA characteristics for flows not under PTAs
+bilateral_trade_with_embeddings[is.na(identifier), names(bilateral_trade_with_embeddings)[6:ncol(bilateral_trade_with_embeddings)-1] := 0]
+
+# Estimate full model on all trade flows. NB: takes 7GB of RAM
+# and ~30 minutes of CPU time
+#gravity_glove_full <- felm(glove_model, data = bilateral_trade_with_embeddings)
+#save(gravity_glove_full, file = "~/gravity_glove_full.rdata", compress = "xz")
+load("~/gravity_glove_full.rdata")
+
+# Redefine text coefficients and re-compute the above ranking
+glove_coefficients <- as.matrix(gravity_glove_full$coefficients)
+
+agreement_rank[grepl("US", name)]
+agreement_rank[grepl("NAFTA", name)]
