@@ -1,3 +1,4 @@
 data/*
 *.history
 !data/pta_texts.rdata
+!data/trade_flow_pta_identifier_mapping.csv.zip
