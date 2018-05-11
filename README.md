@@ -12,7 +12,7 @@ In doing so we will learn how to gather information on merchandise trade, predic
 
 **Readings** The course consists of lectures and lab sessions. Each lecture and lab session is accompanied by required readings. I expect the participants to have read the required materials by the beginning of each lecture or session.
 
-**Code** During lab sessions we will review and execute pre-written code together. Code snippets will be disseminated before each session in `lab/` folder in this repository. Participants are required to have the code ready on their laptops before each lab session.
+**Code** During lab sessions we will review and execute pre-written code together. Code snippets will be disseminated before each session in `code/` folder in this repository. Participants are required to have the code ready on their laptops before each lab session.
 **Technical requirements** Each lab session will be conducted hands-on, with your laptops. I expect you to come to the first lab session with base R (https://www.r-project.org) preinstalled.
 **Evaluation** Since this is a zero-credit course, there will be no evaluation.
 
