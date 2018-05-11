@@ -102,7 +102,7 @@ In doing so we will learn how to gather information on merchandise trade, predic
     Economics*. 71, 7295. **(required)**
     <https://doi.org/10.1016/j.jinteco.2006.02.005>
 
-#### Lab Session 5 Putting the pieces together: PTA embeddings and merchandise trade ([`code`](https://github.com/memoryfull/tota_course_euspb/blob/master/code/5_ptas_and_welfare.r))
+#### Lab Session 5 | Putting the pieces together: PTA embeddings and merchandise trade ([`code`](https://github.com/memoryfull/tota_course_euspb/blob/master/code/5_ptas_and_welfare.r))
 
 -   This session will capitalise on all the previous readings
 
