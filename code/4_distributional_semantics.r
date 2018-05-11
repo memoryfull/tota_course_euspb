@@ -179,3 +179,8 @@ text(pta_lsa_coords[grepl("USA", rta_parties_original)]$PC2 ~ pta_lsa_coords[gre
 
 # Homework: imagine interesting word summation/subtractions
 # and study them, e.g. what is tax - avoidance?
+# institutions - customs
+# tariff - barrier
+# institutions - financial
+* investment + objectives
+# investment + gas

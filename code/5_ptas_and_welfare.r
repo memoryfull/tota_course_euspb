@@ -74,7 +74,7 @@ lsa_model <- LatentSemanticAnalysis$new(50)
 tcm_lsa <- lsa_model$fit_transform(tcm_pta)
 tcm_lsa_dt <- as.data.table(tcm_lsa)
 tcm_lsa_dt[, term := rownames(tcm_lsa)]
-setcolorder(tcm_lsa_dt, "term")
+setcolorder(tcm_lsa_dt, c("term", names(tcm_lsa_dt)[!grepl("term", names(tcm_lsa_dt))]))
 tcm_lsa <- copy(tcm_lsa_dt)
 rm(tcm_lsa_dt)
 
@@ -121,7 +121,7 @@ pta_tcm_coords[, identifier := pta_tcm_tfweighted$identifier]
 ## DTM LSA
 pta_embeddings <- as.data.table(pta_lsa)
 pta_embeddings[, identifier := rownames(pta_lsa)]
-setcolorder(pta_embeddings, "identifier")
+setcolorder(pta_embeddings, c("identifier", names(pta_embeddings)[!grepl("identifier", names(pta_embeddings))]))
 names(pta_embeddings)[2:ncol(pta_embeddings)] <- gsub("V", "dtm_lsa_", names(pta_embeddings)[2:ncol(pta_embeddings)])
 
 ## DTM LSA -> PCA
@@ -286,7 +286,7 @@ for(m in models_list) {
 
 # How would trade between two nations look like had there been an agreement
 # similar in design to NAFTA between them?
-glove_coefficients <-  
+glove_coefficients <- as.matrix(gravity_glove$coefficients)
 
 nafta_vector <- as.matrix(bilateral_trade_with_embeddings[identifier == 112, paste0("glove_", 1:50)][1])
 
