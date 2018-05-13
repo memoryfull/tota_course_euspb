@@ -20,7 +20,7 @@ In doing so we will learn how to gather information on merchandise trade, predic
 
 # Course Schedule
 
-#### Lecture 1 | Preferential Trade Agreements and International Economic Order ([`slides`](https://github.com/memoryfull/tota_course_euspb/blob/master/lectures/lecture_1_Skougarevskiy_text_as_data_international_trade.pdf))*
+#### Lecture 1 | Preferential Trade Agreements and International Economic Order ([`slides`](https://github.com/memoryfull/tota_course_euspb/blob/master/lectures/lecture_1_Skougarevskiy_text_as_data_international_trade.pdf))
 -   Chauffour, J.-P. and J.-C. Maur (eds). 2011. *Preferential Trade
     Agreement Policies for Development: A Handbook*. Chapter 2
     **(required)**. Chapter 6 (optional). <http://hdl.handle.net/10986/2329>
